@@ -362,37 +362,37 @@ function Methodology() {
 
 type Book = {
   title: string;
-  badge: string | null;
+  bestseller: boolean;
   subtitle: string;
   cta: string;
-  disabled: boolean;
+  href: string;
   image: string | null;
 };
 
 const books: Book[] = [
   {
     title: "Carologist Beyond Enthusiast",
-    badge: "Pre-Release",
+    bestseller: true,
     subtitle: "A Carologist's Dream: Building an Empire via Ten World's Firsts",
-    cta: "Coming Soon",
-    disabled: true,
-    image: null,
+    cta: "Buy on Amazon",
+    href: "https://www.amazon.com/dp/B0GPSZVZJH",
+    image: "/images/book-carologist.jpg",
   },
   {
     title: "Preserve the Drive",
-    badge: "Bestseller",
+    bestseller: false,
     subtitle: "A Collector's Guide to Automotive Storage, Risk, and Legacy",
     cta: "Buy on Amazon",
-    disabled: false,
+    href: "https://www.amazon.com/dp/B0G3HVZGX7",
     image: "/images/book-preserve-the-drive.jpg",
   },
   {
     title: "Drivable Art",
-    badge: null,
+    bestseller: false,
     subtitle:
       "How to Turn Collector Cars into Cash Flow, Tax Shields, and Long-Term Wealth",
     cta: "Buy on Amazon",
-    disabled: false,
+    href: "https://www.amazon.com/dp/B0G3KZWZVW",
     image: "/images/book-drivable-art.jpg",
   },
 ];
@@ -417,14 +417,14 @@ function Books() {
               key={book.title}
               className="group border border-border bg-surface transition-colors hover:border-gold"
             >
-              {/* Book cover — real image or placeholder */}
+              {/* Book cover */}
               <div className="relative aspect-[2/3] overflow-hidden">
                 {book.image ? (
                   <Image
                     src={book.image}
                     alt={`${book.title} — by Corey Lancaster`}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <div
@@ -439,9 +439,13 @@ function Books() {
                     </h3>
                   </div>
                 )}
-                {book.badge && (
-                  <span className="absolute top-4 left-4 bg-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black">
-                    {book.badge}
+                {/* Bestseller pill badge */}
+                {book.bestseller && (
+                  <span
+                    className="absolute top-4 left-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-widest text-black shadow-lg"
+                    style={{ background: "linear-gradient(135deg, #C9A84C 0%, #A8883A 100%)" }}
+                  >
+                    ★ Bestseller
                   </span>
                 )}
               </div>
@@ -453,18 +457,14 @@ function Books() {
                 <p className="mb-6 font-body text-sm leading-relaxed text-text-secondary">
                   {book.subtitle}
                 </p>
-                {book.disabled ? (
-                  <span className="inline-block px-6 py-3 text-xs font-semibold uppercase tracking-widest text-text-muted">
-                    {book.cta}
-                  </span>
-                ) : (
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-1.5 bg-gold px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black transition-all hover:scale-[1.02] hover:bg-gold-light"
-                  >
-                    {book.cta} <ArrowRight size={14} />
-                  </a>
-                )}
+                <a
+                  href={book.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-gold px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black transition-all hover:scale-[1.02] hover:bg-gold-light"
+                >
+                  {book.cta} <ArrowRight size={14} />
+                </a>
               </div>
             </div>
           ))}

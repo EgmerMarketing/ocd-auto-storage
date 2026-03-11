@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Warehouse,
   BookOpen,
@@ -29,9 +30,15 @@ function Nav() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-bg/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
-        <a href="/" className="font-heading text-2xl font-normal tracking-wide">
-          <span className="text-gold">OCD</span>{" "}
-          <span className="text-text-primary">Auto Storage</span>
+        <a href="/" className="flex items-center">
+          <Image
+            src="/images/ocd-logo.png"
+            alt="OCD Auto Storage"
+            width={120}
+            height={48}
+            className="h-12 w-auto"
+            priority
+          />
         </a>
 
         <div className="hidden items-center gap-8 lg:flex">
@@ -62,14 +69,17 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg">
-      {/* Background gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 40%, #1A1A1A 0%, #111111 30%, #0A0A0A 70%)",
-        }}
+      {/* Hero background image */}
+      <Image
+        src="/images/facility-hero.jpg"
+        alt="OCD Auto Storage facility"
+        fill
+        className="object-cover object-center"
+        priority
+        quality={85}
       />
+      {/* Dark overlay — keeps text readable */}
+      <div className="absolute inset-0 bg-black/70" />
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-32 text-center">
         <p className="mb-6 font-body text-xs font-medium uppercase tracking-[0.3em] text-gold">
@@ -141,14 +151,44 @@ function Authority() {
           </div>
         </div>
 
-        {/* Portrait placeholder */}
-        <div
-          className="hidden h-[500px] border border-border lg:block"
-          style={{
-            background:
-              "linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%)",
-          }}
-        />
+        {/* Facility photo */}
+        <div className="relative hidden h-[500px] overflow-hidden border border-border lg:block">
+          <Image
+            src="/images/facility-01.jpg"
+            alt="OCD Auto Storage — climate-controlled facility interior"
+            fill
+            className="object-cover object-center"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────── FACILITY GALLERY ─────────────────── */
+
+function FacilityGallery() {
+  const shots = [
+    { src: "/images/facility-01.jpg", alt: "OCD Auto Storage — climate-controlled bay" },
+    { src: "/images/facility-02.jpg", alt: "OCD Auto Storage — storage facility detail" },
+    { src: "/images/facility-03.jpg", alt: "OCD Auto Storage — preservation environment" },
+  ];
+
+  return (
+    <section className="bg-bg py-4">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {shots.map((shot) => (
+            <div key={shot.src} className="relative aspect-[3/2] overflow-hidden">
+              <Image
+                src={shot.src}
+                alt={shot.alt}
+                fill
+                className="object-cover object-center transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -320,22 +360,31 @@ function Methodology() {
 
 /* ───────────────────────── THE BOOKS ───────────────────────── */
 
-const books = [
+type Book = {
+  title: string;
+  badge: string | null;
+  subtitle: string;
+  cta: string;
+  disabled: boolean;
+  image: string | null;
+};
+
+const books: Book[] = [
   {
     title: "Carologist Beyond Enthusiast",
     badge: "Pre-Release",
-    subtitle:
-      "A Carologist's Dream: Building an Empire via Ten World's Firsts",
+    subtitle: "A Carologist's Dream: Building an Empire via Ten World's Firsts",
     cta: "Coming Soon",
     disabled: true,
+    image: null,
   },
   {
     title: "Preserve the Drive",
     badge: "Bestseller",
-    subtitle:
-      "A Collector's Guide to Automotive Storage, Risk, and Legacy",
+    subtitle: "A Collector's Guide to Automotive Storage, Risk, and Legacy",
     cta: "Buy on Amazon",
     disabled: false,
+    image: "/images/book-preserve-the-drive.jpg",
   },
   {
     title: "Drivable Art",
@@ -344,6 +393,7 @@ const books = [
       "How to Turn Collector Cars into Cash Flow, Tax Shields, and Long-Term Wealth",
     cta: "Buy on Amazon",
     disabled: false,
+    image: "/images/book-drivable-art.jpg",
   },
 ];
 
@@ -367,25 +417,39 @@ function Books() {
               key={book.title}
               className="group border border-border bg-surface transition-colors hover:border-gold"
             >
-              {/* Book cover placeholder — 2:3 aspect ratio */}
-              <div
-                className="relative flex aspect-[2/3] items-end p-6"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%)",
-                }}
-              >
+              {/* Book cover — real image or placeholder */}
+              <div className="relative aspect-[2/3] overflow-hidden">
+                {book.image ? (
+                  <Image
+                    src={book.image}
+                    alt={`${book.title} — by Corey Lancaster`}
+                    fill
+                    className="object-cover object-top"
+                  />
+                ) : (
+                  <div
+                    className="flex h-full items-end p-6"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%)",
+                    }}
+                  >
+                    <h3 className="font-heading text-2xl font-normal leading-tight text-gold">
+                      {book.title}
+                    </h3>
+                  </div>
+                )}
                 {book.badge && (
                   <span className="absolute top-4 left-4 bg-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black">
                     {book.badge}
                   </span>
                 )}
-                <h3 className="font-heading text-2xl font-normal leading-tight text-gold">
-                  {book.title}
-                </h3>
               </div>
 
               <div className="p-6">
+                <h3 className="mb-2 font-heading text-xl font-normal text-text-primary">
+                  {book.title}
+                </h3>
                 <p className="mb-6 font-body text-sm leading-relaxed text-text-secondary">
                   {book.subtitle}
                 </p>
@@ -525,11 +589,14 @@ function Footer() {
       <div className="mx-auto max-w-[1200px] px-6 py-16">
         <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-center">
           <div>
-            <p className="font-heading text-2xl font-normal tracking-wide">
-              <span className="text-gold">OCD</span>{" "}
-              <span className="text-text-primary">Auto Storage</span>
-            </p>
-            <p className="mt-2 font-body text-sm text-text-secondary">
+            <Image
+              src="/images/ocd-logo.png"
+              alt="OCD Auto Storage"
+              width={100}
+              height={40}
+              className="h-10 w-auto"
+            />
+            <p className="mt-3 font-body text-sm text-text-secondary">
               The Science of Keeping What Matters
             </p>
           </div>
@@ -576,6 +643,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <Authority />
+      <FacilityGallery />
       <Services />
       <Methodology />
       <Books />

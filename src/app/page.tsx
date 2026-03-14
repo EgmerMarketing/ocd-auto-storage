@@ -375,8 +375,8 @@ const books: Book[] = [
     badge: "Pre-Release",
     subtitle: "A Carologist's Dream: Building an Empire via Ten World's Firsts",
     cta: "Coming Soon",
-    disabled: true,
-    image: null,
+    disabled: false,
+    image:"/images/carologist.jpg",
   },
   {
     title: "Preserve the Drive",

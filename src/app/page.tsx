@@ -375,6 +375,7 @@ type Book = {
   title: string;
   badge: string | null;
   badge2?: string | null;
+  link?: string;
   subtitle: string;
   cta: string;
   disabled: boolean;
@@ -387,8 +388,9 @@ const books: Book[] = [
     badge: "Bestseller",
     badge2: "Pre-Release",
     subtitle: "A Carologist's Dream: Building an Empire via Ten World's Firsts",
-    cta: "Coming Soon",
+    cta: "Buy on Amazon",
     disabled: false,
+    link: "https://www.amazon.com/dp/B0G3HVZGX7",
     image:"/images/carologist.jpg",
   },
   {
@@ -481,7 +483,9 @@ function Books() {
                   </span>
                 ) : (
                   <a
-                    href="#"
+                    href={book.link ?? "#"}
+                    target={book.link ? "_blank" : undefined}
+                    rel={book.link ? "noopener noreferrer" : undefined}
                     className="inline-flex items-center gap-1.5 bg-gold px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black transition-all hover:scale-[1.02] hover:bg-gold-light"
                   >
                     {book.cta} <ArrowRight size={14} />

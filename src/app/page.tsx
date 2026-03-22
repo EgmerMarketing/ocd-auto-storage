@@ -186,6 +186,17 @@ function FacilityGallery() {
                 fill
                 className="object-cover object-center transition-transform duration-500 hover:scale-105"
               />
+              {/* Edge fade — softens hard crop edges into the dark background */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: `
+                    linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.55) 100%),
+                    linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.45) 100%)
+                  `
+                }}
+              />
             </div>
           ))}
         </div>

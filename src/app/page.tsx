@@ -374,6 +374,7 @@ function Methodology() {
 type Book = {
   title: string;
   badge: string | null;
+  badge2?: string | null;
   subtitle: string;
   cta: string;
   disabled: boolean;
@@ -383,7 +384,8 @@ type Book = {
 const books: Book[] = [
   {
     title: "Carologist Beyond Enthusiast",
-    badge: "Pre-Release",
+    badge: "Bestseller",
+    badge2: "Pre-Release",
     subtitle: "A Carologist's Dream: Building an Empire via Ten World's Firsts",
     cta: "Coming Soon",
     disabled: false,
@@ -391,7 +393,7 @@ const books: Book[] = [
   },
   {
     title: "Preserve the Drive",
-    badge: "Bestseller",
+    badge: null,
     subtitle: "A Collector's Guide to Automotive Storage, Risk, and Legacy",
     cta: "Buy on Amazon",
     disabled: false,
@@ -450,10 +452,19 @@ function Books() {
                     </h3>
                   </div>
                 )}
-                {book.badge && (
-                  <span className="absolute top-4 left-4 bg-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black">
-                    {book.badge}
-                  </span>
+                {(book.badge || book.badge2) && (
+                  <div className="absolute top-4 left-4 flex flex-col gap-1">
+                    {book.badge && (
+                      <span className="bg-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black">
+                        {book.badge}
+                      </span>
+                    )}
+                    {book.badge2 && (
+                      <span className="bg-white/10 border border-white/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
+                        {book.badge2}
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
 
